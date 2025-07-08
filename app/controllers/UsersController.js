@@ -1,4 +1,5 @@
 import Users from "../model/UsersModel.js";
+import { TokenEncode } from "../utility/tokenUtility.js";
 
 export const Registration=async(req,res)=>{
  
@@ -21,7 +22,9 @@ export const Login=async(req,res)=>{
             if(!user){
                 return res.status(404).json({status:"error",message:"User not found"})
             }else{
-                return res.status(200).json({status:"success",message:"User logged in successfully"})
+
+                let token=TokenEncode(user.email,user._id)
+                return res.status(200).json({status:"success",message:"User logged in successfully",user:{token:token}})
             }
 
    
