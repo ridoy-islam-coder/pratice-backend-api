@@ -1,5 +1,6 @@
 import Users from "../model/UsersModel.js";
 import { TokenEncode } from "../utility/tokenUtility.js";
+import data from './../../node_modules/@mongodb-js/saslprep/dist/code-points-data-browser.d';
 
 export const Registration=async(req,res)=>{
  
@@ -37,8 +38,20 @@ export const Login=async(req,res)=>{
 }
 
 export const ProfileDetails=async(req,res)=>{
+   try{
+   let user_id=req.headers.user_id;
+   let data=await Users.findOne({_id:user_id})
+   return res.status(200).json({status:"success",message:"User profile details",data:data})
+   
 
-    return res.json({status:"success"})
+   }catch(err){
+        console.log(err)
+        return res.status(500).json({status:"error",message:"Internal Server Error"})
+    }
+
+
+
+   
 }
 
 export const ProfileUpdate=async(req,res)=>{
