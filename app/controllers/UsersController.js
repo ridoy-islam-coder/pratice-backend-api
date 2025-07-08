@@ -11,18 +11,26 @@ export const Registration=async(req,res)=>{
     }catch(err){
         console.log(err)
         return res.status(500).json({status:"error",message:"Internal Server Error"})
-    }
- 
-
-
-
-
-    return res.json({status:"success"})
+    } 
 }
 
 export const Login=async(req,res)=>{
+      try{
+          const rqqBody=req.body;
+            const user=await Users.find(rqqBody)
+            if(!user){
+                return res.status(404).json({status:"error",message:"User not found"})
+            }else{
+                return res.status(200).json({status:"success",message:"User logged in successfully"})
+            }
 
-    return res.json({status:"success"})
+   
+      }catch(err){
+        console.log(err)
+        return res.status(500).json({status:"error",message:"Internal Server Error"})
+    } 
+
+
 }
 
 export const ProfileDetails=async(req,res)=>{
@@ -41,7 +49,7 @@ export const EmailVerify=async(req,res)=>{
 }
 
 export const CodeVerify=async(req,res)=>{
-
+       
     return res.json({status:"success"})
 }
 
