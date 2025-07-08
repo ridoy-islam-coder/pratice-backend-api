@@ -55,8 +55,17 @@ export const ProfileDetails=async(req,res)=>{
 }
 
 export const ProfileUpdate=async(req,res)=>{
+  try{
+     const rqqBody=req.body;
+     const user_id=req.headers.user_id;
+     await Users.updateOne({_id:user_id},{$set:rqqBody})
+     return res.status(201).json({status:"success",message:"User created successfully"})
 
-    return res.json({status:"success"})
+
+    }catch(err){
+        console.log(err)
+        return res.status(500).json({status:"error",message:"Internal Server Error"})
+    } 
 }
 
 export const EmailVerify=async(req,res)=>{
