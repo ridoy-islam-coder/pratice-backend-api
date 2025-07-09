@@ -1,6 +1,6 @@
 import Users from "../model/UsersModel.js";
 import { TokenEncode } from "../utility/tokenUtility.js";
-import data from './../../node_modules/@mongodb-js/saslprep/dist/code-points-data-browser.d';
+
 
 export const Registration=async(req,res)=>{
  
