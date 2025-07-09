@@ -116,7 +116,7 @@ export const ResetPassword=async(req,res)=>{
   try {
         let reqBody=req.body;
         let data=await UsersModel.findOne({email: reqBody['email'],otp:reqBody['otp']})
-        if(data==null){
+        if(data==null || data.otp === "0"){
             return res.json({status:"fail","Message":"Wrong Verification Code"})
         }
         else {
@@ -131,6 +131,5 @@ export const ResetPassword=async(req,res)=>{
         return res.json({status:"fail","Message":e.toString()})
     }
 }
-
 
 
