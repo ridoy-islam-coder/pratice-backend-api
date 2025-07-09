@@ -69,8 +69,30 @@ export const ProfileUpdate=async(req,res)=>{
 }
 
 export const EmailVerify=async(req,res)=>{
+try {
+    let email=req.params.email;
+    let data=await UsersModel.findOne({email: email})
+    if(data==null){
+        return res.json({status:"fail","Message":"User email does not exist"})
+    }
+    else {
 
-    return res.json({status:"success"})
+        // Send OTP To Email
+        let code=Math.floor(100000+Math.random()*900000)
+        let EmailTo= data['email'];
+        let EmailText= "Your Code is "+ code;
+        let EmailSubject= "Task Manager Verification Code"
+        await SendEmail(EmailTo, EmailText, EmailSubject)
+
+        // Update OTP In User
+        await UsersModel.updateOne({email: email},{otp:code})
+        return res.json({status:"success",Message:"Verification successfully,check email"})
+
+    }
+}
+catch (e){
+    return res.json({status:"fail","Message":e.toString()})
+}
 }
 
 export const CodeVerify=async(req,res)=>{
